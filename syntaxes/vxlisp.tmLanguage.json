@@ -1,0 +1,223 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "vxlisp",
+    "scopeName": "source.vxlisp",
+	"patterns": [
+		{
+			"include": "#comment"
+		},
+		{
+			"include": "#comment-block"
+		},
+		{
+			"include": "#sexp"
+		},
+		{
+			"include": "#string-block"
+		},
+		{
+			"include": "#string"
+		}
+	],
+	"repository": {
+		"comment": {
+			"begin": "(?<!\\\\)(\\/\\/)",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.comment.vxlisp"
+				}
+			},
+			"end": "$",
+			"name": "comment.line.double-slash.vxlisp"
+		},
+		"comment-block": {
+			"begin": "(?<!\\\\)(\\/\\*)",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.comment.vxlisp"
+				}
+			},
+			"end": "(?<!\\\\)(\\*\\/)",
+			"name": "comment.block.vxlisp"
+		},
+		"constants": {
+			"patterns": [
+				{
+					"match": "(true|false)",
+					"name": "constant.language.boolean.vxlisp"
+				},
+				{
+					"match": "([-+]?\\d+/\\d+)",
+					"name": "constant.numeric.ratio.vxlisp"
+				},
+				{
+					"match": "([-+]?(?:(?:3[0-6])|(?:[12]\\d)|[2-9])[rR][0-9A-Za-z]+N?)",
+					"name": "constant.numeric.arbitrary-radix.vxlisp"
+				},
+				{
+					"match": "([-+]?[0-9]+(?:(\\.|(?=[eEM]))[0-9]*([eE][-+]?[0-9]+)?)M?)",
+					"name": "constant.numeric.double.vxlisp"
+				},
+				{
+					"match": "([-+]?\\d+N?)",
+					"name": "constant.numeric.long.vxlisp"
+				},
+				{
+					"include": "#keyword"
+				}
+			]
+		},
+		"keyword": {
+			"match": "(?<=(\\s|\\(|\\[|\\{)):[\\w\\#\\.\\-\\_\\:\\+\\=\\>\\<\\/\\!\\?\\*]+(?=(\\s|\\)|\\]|\\}|\\,))",
+			"name": "keyword.vxlisp"
+		},
+		"sexp": {
+			"begin": "(\\()",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.section.expression.begin.vxlisp"
+				}
+			},
+			"end": "(\\))$|(\\)(?=[\\}\\]\\)\\s]*(?:;|$)))|(\\))",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.section.expression.end.trailing.vxlisp"
+				},
+				"2": {
+					"name": "punctuation.section.expression.end.trailing.vxlisp"
+				},
+				"3": {
+					"name": "punctuation.section.expression.end.vxlisp"
+				}
+			},
+			"name": "meta.expression.vxlisp",
+			"patterns": [
+				{
+					"begin": "(?<=\\()(ns|declare|def[\\w\\d._:+=><!?*-]*|[\\w._:+=><!?*-][\\w\\d._:+=><!?*-]*/def[\\w\\d._:+=><!?*-]*)\\s+",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.vxlisp"
+						}
+					},
+					"end": "(?=\\))",
+					"name": "meta.definition.global.vxlisp",
+					"patterns": [
+						{
+							"match": "([\\p{L}\\.\\-\\_\\+\\=\\>\\<\\!\\?\\*][\\w\\.\\-\\_\\:\\+\\=\\>\\<\\!\\?\\*\\d]*)",
+							"name": "entity.global.vxlisp"
+						},
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"include": "#constants"
+				},
+				{
+					"include": "#keyword"
+				},
+				{
+					"include": "#type"
+				},
+				{
+					"include": "#typesub"
+				},
+				{
+					"include": "#sexp"
+				},
+				{
+					"match": "(?<=\\()(.+?)(?=\\s|\\))",
+					"captures": {
+						"1": {
+							"name": "entity.name.function.vxlisp"
+						}
+					},
+					"patterns": [
+						{
+							"include": "$self"
+						}
+					]
+				},
+				{
+					"include": "$self"
+				}
+			]
+		},
+		"string-block": {
+			"begin": "(?<!\\\\)(`)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.string-block.begin.vxlisp"
+				}
+			},
+			"end": "(`)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.string-block.end.vxlisp"
+				}
+			},
+			"name": "string.quoted.single.vxlisp",
+			"patterns": [
+				{
+					"match": "\\\\.",
+					"name": "constant.character.escape.vxlisp"
+				}
+			]
+		},
+		"string": {
+			"begin": "(?<!\\\\)(\")",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.string.begin.vxlisp"
+				}
+			},
+			"end": "(\")",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.string.end.vxlisp"
+				}
+			},
+			"name": "string.quoted.double.vxlisp",
+			"patterns": [
+				{
+					"match": "\\\\.",
+					"name": "constant.character.escape.vxlisp"
+				}
+			]
+		},
+		"type": {
+			"begin": "(\\s+:\\s+)",
+			"name": "entity.name.type",
+			"end": "(\\S+)"
+		},
+		"typesub": {
+			"begin": "(\\s+::\\s+)",
+			"name": "entity.name.type",
+			"end": "(\\S+)"
+		},
+		"vector": {
+			"begin": "(\\[)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.section.vector.begin.vxlisp"
+				}
+			},
+			"end": "(\\](?=[\\}\\]\\)\\s]*(?:;|$)))|(\\])",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.section.vector.end.trailing.vxlisp"
+				},
+				"2": {
+					"name": "punctuation.section.vector.end.vxlisp"
+				}
+			},
+			"name": "meta.vector.vxlisp",
+			"patterns": [
+				{
+					"include": "$self"
+				}
+			]
+		}
+	}
+}

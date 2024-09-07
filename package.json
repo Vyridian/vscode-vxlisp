@@ -1,0 +1,25 @@
+{
+  "name": "vxlisp",
+  "displayName": "vxlisp",
+  "description": "vxlisp - Syntax Highlighter",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "vxlisp",
+      "aliases": ["vxlisp", "vxlisp"],
+      "extensions": [".vxlisp"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "vxlisp",
+      "scopeName": "source.vxlisp",
+      "path": "./syntaxes/vxlisp.tmLanguage.json"
+    }]
+  }
+}
