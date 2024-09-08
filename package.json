@@ -3,6 +3,13 @@
   "displayName": "vxlisp",
   "description": "vxlisp - Syntax Highlighter",
   "version": "1.0.0",
+  "publisher": "Vyridian",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vyridian/vscode-vxlisp"
+  },
+  "keywords": ["vxlisp", "syntax"],
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.92.2"
   },
